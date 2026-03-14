@@ -16,6 +16,7 @@ import com.codewithseth.khmerjava_api.dto.UserDto;
 import com.codewithseth.khmerjava_api.dto.UserRequestDto;
 import com.codewithseth.khmerjava_api.service.IUserService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -38,13 +39,16 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> addUser(@RequestBody UserRequestDto userRequestDto) {
+    public ResponseEntity<Void> addUser(@Valid @RequestBody UserRequestDto userRequestDto) {
         iUserService.createUser(userRequestDto);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> editUser(@PathVariable Integer id, @RequestBody UserRequestDto userRequestDto) {
+    public ResponseEntity<Void> editUser(
+        @PathVariable Integer id, 
+        @Valid @RequestBody UserRequestDto userRequestDto
+    ) {
         iUserService.updateUser(id, userRequestDto);
         return ResponseEntity.ok().build();
     }
