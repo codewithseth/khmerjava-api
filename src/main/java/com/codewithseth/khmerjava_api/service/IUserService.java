@@ -8,7 +8,7 @@ import com.codewithseth.khmerjava_api.dto.UserRequestDto;
 public interface IUserService {
     List<UserDto> getAllUsers();
     UserDto getUserById(Integer id);
-    UserDto createUser(UserRequestDto userRequestDto);
-    UserDto updateUser(Integer id, UserRequestDto userRequestDto);
+    void createUser(UserRequestDto userRequestDto);
+    void updateUser(Integer id, UserRequestDto userRequestDto);
     void deleteUser(Integer id);
 }
