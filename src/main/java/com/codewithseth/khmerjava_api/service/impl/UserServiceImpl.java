@@ -3,6 +3,7 @@ package com.codewithseth.khmerjava_api.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import com.codewithseth.khmerjava_api.dto.UserDto;
@@ -27,13 +28,14 @@ public class UserServiceImpl implements IUserService {
 
         for (var user : users) {
             var userDto = new UserDto();
-            userDto.setId(user.getId());
+            /* userDto.setId(user.getId());
             userDto.setFirstname(user.getFirstname());
             userDto.setLastname(user.getLastname());
             userDto.setEmail(user.getEmail());
             userDto.setRoles(user.getRoles());
             userDto.setBio(user.getBio());
-            userDto.setProfilePicture(user.getProfilePicture());
+            userDto.setProfilePicture(user.getProfilePicture()); */
+            BeanUtils.copyProperties(user, userDto);
 
             usersDto.add(userDto);
         }
@@ -48,13 +50,14 @@ public class UserServiceImpl implements IUserService {
         );
         
         var userDto = new UserDto();
-        userDto.setId(user.getId());
+        /* userDto.setId(user.getId());
         userDto.setFirstname(user.getFirstname());
         userDto.setLastname(user.getLastname());
         userDto.setEmail(user.getEmail());
         userDto.setRoles(user.getRoles());
         userDto.setBio(user.getBio());
-        userDto.setProfilePicture(user.getProfilePicture());
+        userDto.setProfilePicture(user.getProfilePicture()); */
+        BeanUtils.copyProperties(user, userDto);
 
         return userDto;
     }
@@ -62,13 +65,14 @@ public class UserServiceImpl implements IUserService {
     @Override
     public void createUser(UserRequestDto userRequestDto) {
         var user = new User();
-        user.setFirstname(userRequestDto.getFirstname());
+        /* user.setFirstname(userRequestDto.getFirstname());
         user.setLastname(userRequestDto.getLastname());
         user.setEmail(userRequestDto.getEmail());
         user.setPassword(userRequestDto.getPassword());
         user.setRoles(userRequestDto.getRoles());
         user.setBio(userRequestDto.getBio());
-        user.setProfilePicture(userRequestDto.getProfilePicture());
+        user.setProfilePicture(userRequestDto.getProfilePicture()); */
+        BeanUtils.copyProperties(userRequestDto, user);
 
         userRepository.save(user);
     }
@@ -79,13 +83,14 @@ public class UserServiceImpl implements IUserService {
             () -> new ResourceNotFoundException("User", "id", id.toString())
         );
 
-        user.setFirstname(userRequestDto.getFirstname());
+        /* user.setFirstname(userRequestDto.getFirstname());
         user.setLastname(userRequestDto.getLastname());
         user.setEmail(userRequestDto.getEmail());
         user.setPassword(userRequestDto.getPassword());
         user.setRoles(userRequestDto.getRoles());
         user.setBio(userRequestDto.getBio());
-        user.setProfilePicture(userRequestDto.getProfilePicture());
+        user.setProfilePicture(userRequestDto.getProfilePicture()); */
+        BeanUtils.copyProperties(userRequestDto, user);
 
         userRepository.save(user);
     }
