@@ -10,5 +10,5 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     created_by VARCHAR(100) NOT NULL,
     updated_at TIMESTAMP,
-    updated_by TIMESTAMP
+    updated_by VARCHAR(100)
 );
