@@ -1,10 +1,17 @@
 package com.codewithseth.khmerjava_api.entity;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,13 +38,18 @@ public class User extends BaseEntity {
     @Column(name = "pwd_hash", nullable = false, length = 100)    
     private String password;
 
-    @Column(name = "roles", nullable = false, length = 100)
-    private String roles;
-
     @Column(name = "bio", columnDefinition = "TEXT")
     private String bio;
 
     @Column(name = "profile_pic", length = 100)
     private String profilePicture;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "user_roles",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new LinkedHashSet<>();
 
 }
