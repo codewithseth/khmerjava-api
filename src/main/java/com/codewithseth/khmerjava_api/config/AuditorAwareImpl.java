@@ -1,7 +1,11 @@
 package com.codewithseth.khmerjava_api.config;
 
 import org.springframework.data.domain.AuditorAware;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+
+import com.codewithseth.khmerjava_api.entity.User;
 
 import java.util.Optional;
 
@@ -10,7 +14,24 @@ public class AuditorAwareImpl implements AuditorAware<String> {
 
     @Override
     public Optional<String> getCurrentAuditor() {
-        return Optional.of("Anonymous user");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null ||
+            !authentication.isAuthenticated() ||
+            authentication.getPrincipal().equals("anonymousUser")) {
+            return Optional.of("Anonymous user");
+        }
+
+        Object principal = authentication.getPrincipal();
+        String username;
+
+        if (principal instanceof User user) {
+            username = user.getEmail();
+        } else {
+            username = principal.toString();
+        }
+
+        return Optional.of(username);
     }
 
 }
