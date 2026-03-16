@@ -15,9 +15,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.password.HaveIBeenPwnedRestApiPasswordChecker;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import com.codewithseth.khmerjava_api.filter.JWTTokenValidatorFilter;
 
 @Configuration
 public class SecurityConfig {
@@ -31,9 +34,12 @@ public class SecurityConfig {
                 "/v3/api-docs/**",
                 "/api/v1/auth/**"
             ).permitAll();
+            req.requestMatchers("/api/v1/users/**").hasRole("ADMIN");
             req.anyRequest().authenticated();
         })
         .csrf(c -> c.disable())
+        .cors(c -> c.configurationSource(corsConfigurationSource()))
+        .addFilterBefore(new JWTTokenValidatorFilter(), BasicAuthenticationFilter.class)
         .formLogin(Customizer.withDefaults())
         .httpBasic(Customizer.withDefaults())
         .build();
