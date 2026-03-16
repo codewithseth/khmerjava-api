@@ -34,7 +34,7 @@ public class SecurityConfig {
                 "/v3/api-docs/**",
                 "/api/v1/auth/**"
             ).permitAll();
-            req.requestMatchers("/api/v1/users/**").hasRole("ADMIN");
+            req.requestMatchers("/api/v1/users/**").hasRole("SUPER_ADMIN");
             req.anyRequest().authenticated();
         })
         .csrf(c -> c.disable())
