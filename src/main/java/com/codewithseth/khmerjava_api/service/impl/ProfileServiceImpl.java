@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.codewithseth.khmerjava_api.dto.ProfileDto;
+import com.codewithseth.khmerjava_api.dto.ProfileRequestDto;
 import com.codewithseth.khmerjava_api.entity.User;
 import com.codewithseth.khmerjava_api.repository.UserRepository;
 import com.codewithseth.khmerjava_api.service.IProfileService;
@@ -33,6 +34,29 @@ public class ProfileServiceImpl implements IProfileService {
         BeanUtils.copyProperties(user, profileDto);
         profileDto.setRoles(AuthUtil.authorityListToCommaSeparatedString(authentication));
 
+        return profileDto;
+    }
+
+    @Override
+    public ProfileDto updateProfile(ProfileRequestDto profileRequestDto) {
+        Authentication authentication = AuthUtil.getCurrentAuthentication();
+
+        String email = authentication.getName();
+
+        User user = userRepository.findByEmail(email).orElseThrow(
+            () -> new UsernameNotFoundException("User not found")
+        );
+
+        boolean isEmailUpdated = !user.getEmail().equals(profileRequestDto.getEmail());
+        BeanUtils.copyProperties(profileRequestDto, user);
+
+        user = userRepository.save(user);
+
+        ProfileDto profileDto = new ProfileDto();
+        BeanUtils.copyProperties(user, profileDto);
+        profileDto.setRoles(AuthUtil.authorityListToCommaSeparatedString(authentication));
+        profileDto.setEmailUpdated(isEmailUpdated);
+  
         return profileDto;
     }
 

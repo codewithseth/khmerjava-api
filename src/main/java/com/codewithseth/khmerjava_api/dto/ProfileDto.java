@@ -1,3 +1,10 @@
 package com.codewithseth.khmerjava_api.dto;
 
-public class ProfileDto extends UserDto {}
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class ProfileDto extends UserDto {
+    private boolean isEmailUpdated;
+}
