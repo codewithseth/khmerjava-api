@@ -3,7 +3,6 @@ package com.codewithseth.khmerjava_api.controller;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
@@ -15,7 +14,6 @@ import org.springframework.security.authentication.password.CompromisedPasswordC
 import org.springframework.security.authentication.password.CompromisedPasswordDecision;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,6 +27,7 @@ import com.codewithseth.khmerjava_api.dto.UserDto;
 import com.codewithseth.khmerjava_api.entity.User;
 import com.codewithseth.khmerjava_api.repository.RoleRepository;
 import com.codewithseth.khmerjava_api.repository.UserRepository;
+import com.codewithseth.khmerjava_api.util.AuthUtil;
 import com.codewithseth.khmerjava_api.util.JwtUtil;
 
 import jakarta.validation.Valid;
@@ -79,7 +78,7 @@ public class AuthController {
             UserDto userDto = new UserDto();
             User loggedInUser = (User) authentication.getPrincipal();
             BeanUtils.copyProperties(loggedInUser, userDto);
-            userDto.setRoles(authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(",")));
+            userDto.setRoles(AuthUtil.authorityListToCommaSeparatedString(authentication));
 
             String jwtToken = jwtUtil.generateJwtToken(authentication);
 

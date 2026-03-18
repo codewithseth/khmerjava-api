@@ -1,13 +1,11 @@
 package com.codewithseth.khmerjava_api.util;
 
 import java.nio.charset.StandardCharsets;
-import java.util.stream.Collectors;
 
 import javax.crypto.SecretKey;
 
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import com.codewithseth.khmerjava_api.constant.AppConstants;
@@ -33,7 +31,7 @@ public class JwtUtil {
 
         jwt = Jwts.builder().issuer("KhmerJavaAPI").subject("JWT Token")
             .claim("email", user.getEmail())
-            .claim("roles", authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(",")))
+            .claim("roles", AuthUtil.authorityListToCommaSeparatedString(authentication))
             .issuedAt(new java.util.Date())
             .expiration(new java.util.Date((new java.util.Date()).getTime() + 24 * 60 * 60 * 1000)) // 24 hours
             .signWith(secretKey).compact();
