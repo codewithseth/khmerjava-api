@@ -2,7 +2,6 @@ package com.codewithseth.khmerjava_api.service.impl;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +21,7 @@ public class ProfileServiceImpl implements IProfileService {
 
     @Override
     public ProfileDto getProfile() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = AuthUtil.getCurrentAuthentication();
 
         String email = authentication.getName();
 
