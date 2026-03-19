@@ -9,7 +9,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.password.CompromisedPasswordChecker;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -40,8 +39,8 @@ public class SecurityConfig {
         .csrf(c -> c.disable())
         .cors(c -> c.configurationSource(corsConfigurationSource()))
         .addFilterBefore(new JWTTokenValidatorFilter(), BasicAuthenticationFilter.class)
-        .formLogin(Customizer.withDefaults())
-        .httpBasic(Customizer.withDefaults())
+        .formLogin(f -> f.disable())
+        .httpBasic(h -> h.disable())
         .build();
     }
 
