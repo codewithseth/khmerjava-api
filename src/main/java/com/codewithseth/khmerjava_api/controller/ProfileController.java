@@ -3,6 +3,7 @@ package com.codewithseth.khmerjava_api.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -10,7 +11,6 @@ import com.codewithseth.khmerjava_api.dto.ProfileDto;
 import com.codewithseth.khmerjava_api.dto.ProfileRequestDto;
 import com.codewithseth.khmerjava_api.service.IProfileService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
